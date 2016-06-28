@@ -36,11 +36,12 @@ public class AnonFileController {
         File dir = new File("public/files");
         dir.mkdirs();
 
-        if (files.count() > 3) {
+
+        if (files.countByIsPermanentFalse() > 3) {
             Iterable<AnonFile> returnFiles = files.findByIsPermanentFalseOrderByIdAsc();
             if (returnFiles.iterator().hasNext()) {
                 AnonFile anon = returnFiles.iterator().next();
-                files.delete(anon.getId());
+                files.delete(anon);
                 File newFile = new File("public/files/" + anon.getRealFileName());
                 newFile.delete();
             }
@@ -48,19 +49,24 @@ public class AnonFileController {
 
         File uploadedFile = File.createTempFile("file", file.getOriginalFilename(), dir);
         FileOutputStream fos = new FileOutputStream(uploadedFile);
+
         fos.write(file.getBytes());
 
         AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), permanent, comment, PasswordStorage.createHash(password));
-        if (!PasswordStorage.verifyPassword(password, anonFile.getPassword())) {
-            throw new Exception("Wrong Password");
-        }
-        else {
-            files.delete(anonFile);
-
-        }
         files.save(anonFile);
 
         return "redirect:/";
     }
 
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
+    public String delete(int id, String password) throws Exception {
+        AnonFile anon = files.findOne(id);
+        if (!PasswordStorage.verifyPassword(password, anon.getPassword())) {
+            throw new Exception("Wrong password!");
+        }
+        else {
+            files.delete(anon);
+        }
+        return "redirect:/";
+    }
 }

@@ -9,4 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface AnonFileRepository extends CrudRepository<AnonFile, Integer> {
     Iterable<AnonFile> findByOrderByIdAsc();
     Iterable<AnonFile> findByIsPermanentFalseOrderByIdAsc();
+    int countByIsPermanentFalse();
 }

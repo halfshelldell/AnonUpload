@@ -6,11 +6,17 @@
 </head>
 <body>
 <form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="checkbox" name="permanent" checked="checked"/>
     <input type="file" name="file"/>
-    <button type="submit">Upload</button>
+    Permanent? <input type="checkbox" name="permanent"/>
     <input type="text" name="comment" placeholder="Enter comment"/>
     <input type="password" name="password" placeholder="Deletion password"/>
+    <button type="submit">Upload</button>
+</form>
+
+<form action="/delete" method="post">
+    <input type="number" name="id" value=""/>
+    <input type="password" name="password" placeholder="Deletion password"/>
+    <button type="submit">Delete</button>
 </form>
 
 <div id="list"></div>
