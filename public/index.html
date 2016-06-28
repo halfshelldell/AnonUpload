@@ -6,9 +6,13 @@
 </head>
 <body>
 <form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="checkbox" name="permanent" checked="checked"/>
     <input type="file" name="file"/>
     <button type="submit">Upload</button>
+    <input type="text" name="comment" placeholder="Enter comment"/>
+    <input type="password" name="password" placeholder="Deletion password"/>
 </form>
+
 <div id="list"></div>
 <script src="jquery-3.0.0.js"></script>
 <script src="main.js"></script>
